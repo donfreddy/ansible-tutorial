@@ -20,12 +20,21 @@
         state: latest
       when: ansible_distribution == "Ubuntu"
 
+    - name: copy default html file for site
+      tags: apache, apache2
+      copy:
+        src: default_site.html
+        dest: /var/www/html/index.html
+        owner: vboxuser1
+        group: root
+        mode: 0644
+
 - hosts: db_servers
   become: true
   tasks:
     - name: install mariadb package
       tags: db, mariadb, ubuntu
-      apt:
+      apt: 
         name: mariadb-server
         state: latest
       when: ansible_distribution == "Ubuntu"
